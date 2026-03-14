@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1" author="lara">
+        <createTable tableName="fish">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="water_type" type="varchar(50)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="Jan">
+        <createTable tableName="measures">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="timestamp" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="waterType" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="temperature" type="double">
+                <constraints/>
+            </column>
+            <column name="o2_concentration" type="double">
+                <constraints/>
+            </column>
+            <column name="ntu" type="double">
+                <constraints/>
+            </column>
+            <column name="conductivity" type="double">
+                <constraints/>
+            </column>
+            <column name="waterhardness_dh" type="double">
+                <constraints/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="lara">
+        <addColumn tableName="fish">
+            <column name="ph_min" type="double precision" defaultValue="7.0"/>
+            <column name="ph_max" type="double precision" defaultValue="7.5"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="4" author="lara">
+        <addColumn tableName="fish">
+            <column name="temp_min" type="double precision"/>
+            <column name="temp_max" type="double precision"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="5" author="lara">
+        <addColumn tableName="measures">
+            <column name="ph_value" type="double precision" defaultValue="7.0"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="6" author="lara">
+        <renameColumn tableName="measures" oldColumnName="waterType" newColumnName="water_type"/>
+    </changeSet>
+
+    <changeSet id="7" author="Jan">
+        <addColumn tableName="fish">
+            <column name="psu_min" type="double precision"/>
+            <column name="psu_max" type="double precision"/>
+            <column name="o2Concentration_min" type="double precision"/>
+            <column name="o2Concentration_max" type="double precision"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="8" author="Jan">
+        <addColumn tableName="measures">
+            <column name="psu" type="double precision"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="9" author="Jan">
+        <dropColumn tableName="measures" columnName="water_type"/>
+        <dropColumn tableName="measures" columnName="waterhardness_dh"/>
+        <dropColumn tableName="measures" columnName="conductivity"/>
+        <dropColumn tableName="measures" columnName="ntu"/>
+        <dropColumn tableName="fish" columnName="water_type"/>
+    </changeSet>
+
+    <changeSet id="10" author="Jan">
+        <renameColumn tableName="fish" oldColumnName="o2Concentration_min" newColumnName="o2concentration_min"/>
+        <renameColumn tableName="fish" oldColumnName="o2Concentration_max" newColumnName="o2concentration_max"/>
+    </changeSet>
+
+    <changeSet id="11" author="Jan">
+        <renameColumn tableName="measures" oldColumnName="o2_concentration" newColumnName="o2concentration"/>
+    </changeSet>
+    <changeSet id="13" author="Lukas">
+        <addColumn tableName="fish">
+            <column name="scientific_name" type="varchar(50)"/>
+            <column name="comment" type="varchar(255)"/>
+        </addColumn>
+        <addColumn tableName="measures">
+            <column name="comment" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

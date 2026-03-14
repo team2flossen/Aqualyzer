@@ -1,0 +1,36 @@
+# Eclipse, IntelliJ IDEA, VS Code - Editor-bezogene Dateien
+/.idea/
+/.vscode/
+/.classpath
+/.project
+/.settings/
+
+# Quarkus & Maven - Build-Ordner
+/target/
+/build/
+/out/
+/dist/
+
+# Quarkus - Dev-Mode & Hot-Reload-Dateien
+.quarkus/
+.quarkus.log
+/devmode.tmp/
+
+# Maven - Caches & Wrapper
+.mvn/
+/mvnw
+/mvnw.cmd
+/.m2/
+
+# Betriebssystem-Dateien
+.DS_Store
+Thumbs.db
+
+# Logs
+/log/
+/logs/
+/*.log
+
+# H2 Datenbank
+*.mv.db
+*.trace.db
