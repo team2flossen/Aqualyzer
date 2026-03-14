@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.fisch24.ui.FischEditor">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.aqualyzer.ui.FischEditor">
   <grid id="27dc6" binding="contentPane" layout-manager="GridBagLayout">
     <constraints>
       <xy x="20" y="35" width="617" height="415"/>
@@ -25,7 +25,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="acb23" class="com.fisch24.ui.components.RangeSlider" binding="phSlider" custom-create="true">
+      <component id="acb23" class="com.aqualyzer.ui.components.RangeSlider" binding="phSlider" custom-create="true">
         <constraints>
           <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
           <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="0.0"/>
@@ -37,7 +37,7 @@
           <valueIsAdjusting value="false"/>
         </properties>
       </component>
-      <component id="7fa61" class="com.fisch24.ui.components.RangeSlider" binding="tempSlider" custom-create="true">
+      <component id="7fa61" class="com.aqualyzer.ui.components.RangeSlider" binding="tempSlider" custom-create="true">
         <constraints>
           <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
           <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
@@ -155,7 +155,7 @@
           <text value="Sauerstoff-Toleranz (mg/L)"/>
         </properties>
       </component>
-      <component id="2d77" class="com.fisch24.ui.components.RangeSlider" binding="o2Slider">
+      <component id="2d77" class="com.aqualyzer.ui.components.RangeSlider" binding="o2Slider">
         <constraints>
           <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
           <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
@@ -202,7 +202,7 @@
           <text value="Label"/>
         </properties>
       </component>
-      <component id="31b3c" class="com.fisch24.ui.components.RangeSlider" binding="salinitySlider">
+      <component id="31b3c" class="com.aqualyzer.ui.components.RangeSlider" binding="salinitySlider">
         <constraints>
           <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
           <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
@@ -213,7 +213,7 @@
           <value value="30"/>
         </properties>
       </component>
-      <component id="373d1" class="javax.swing.JLabel" binding="psuMaxLael">
+      <component id="373d1" class="javax.swing.JLabel" binding="psuMaxLabel">
         <constraints>
           <grid row="5" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
           <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>

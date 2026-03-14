@@ -12,6 +12,7 @@ public class MessungEditor extends JDialog {
     private JButton okButton;
     private JButton cancelButton;
     private JTextField stationField;
+    private JLabel stationLabel;
     private JSlider phSlider;
     private JSlider temperatureSlider;
     private JSlider o2Slider;
@@ -118,7 +119,7 @@ public class MessungEditor extends JDialog {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(5, 5, 5, 5);
         contentPane.add(label1, gbc);
-        var stationLabel = new JLabel();
+        stationLabel = new JLabel();
         stationLabel.setText("Station");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;

@@ -26,8 +26,6 @@ public class MainWindow extends JFrame {
 
     private final FishService fishService;
     private final WaterMeasurementService waterMeasurementService;
-
-
     private final ImportService importService;
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -38,6 +36,7 @@ public class MainWindow extends JFrame {
 
     private JPanel contentPane;
     private JTable resultTable;
+    private JLabel resultsTitle;
     private JComboBox fishSelection;
     private JButton neuerFischButton,
             zeitreiheImportierenButton,
@@ -54,6 +53,7 @@ public class MainWindow extends JFrame {
     private JTextField searchField;
     private JButton clearSearchButton;
     private JLabel searchLabel;
+    private JCheckBox autoCalcCheckBox;
 
     private JMenuBar menuBar;
     private JMenu menuFile;
@@ -515,7 +515,7 @@ public class MainWindow extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(5, 5, 5, 5);
         contentPane.add(dataStatusLabel, gbc);
-        final JLabel resultsTitle = new JLabel();
+        resultsTitle = new JLabel();
         resultsTitle.setText("Messungen");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;

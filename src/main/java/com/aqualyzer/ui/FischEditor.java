@@ -11,6 +11,7 @@ public class FischEditor extends JDialog {
     private JPanel contentPane;
     private JTextField nameField;
     private JTextField sciNameField;
+    private JLabel sciNameLabel;
     private RangeSlider phSlider;
     private RangeSlider tempSlider;
     private JButton abbrechenButton;
@@ -179,7 +180,7 @@ public class FischEditor extends JDialog {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(5, 5, 5, 5);
         contentPane.add(label1, gbc);
-        final JLabel sciNameLabel = new JLabel();
+        sciNameLabel = new JLabel();
         sciNameLabel.setText("wissenschaftlicher Name");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
