@@ -3,6 +3,7 @@ package com.aqualyzer.core;
 import com.aqualyzer.core.enums.QualityRating;
 import com.aqualyzer.core.model.Result;
 import com.aqualyzer.core.model.WaterMeasurement;
+import com.aqualyzer.ui.Messages;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
@@ -21,9 +22,16 @@ public class CsvExportService {
 
     public void exportToCsv(List<WaterMeasurement> measurements, Map<UUID, Result> resultsByMeasurement, String filePath) throws IOException {
         var headers = new String[]{
-                "Zeit", "Station", "Wassertemperatur", "Temperaturbewertung",
-                "pH-Wert", "pH-Bewertung", "Salzgehalt", "Salzgehalt-Bewertung",
-                "Sauerstoffgehalt", "Sauerstoffbewertung"
+                Messages.get("main.table.header.time"),
+                Messages.get("main.table.header.station"),
+                Messages.get("main.table.header.waterTemperature"),
+                Messages.get("main.table.header.temperatureRating"),
+                Messages.get("main.table.header.phValue"),
+                Messages.get("main.table.header.phRating"),
+                Messages.get("main.table.header.salinity"),
+                Messages.get("main.table.header.salinityRating"),
+                Messages.get("main.table.header.oxygenLevel"),
+                Messages.get("main.table.header.oxygenRating")
         };
 
         var csvFormat = CSVFormat.DEFAULT.builder()

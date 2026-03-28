@@ -27,12 +27,12 @@ public class QualityRatingCellRenderer extends DefaultTableCellRenderer {
         icons.put(QualityRating.Critical,   exclamationIconUrl != null ? new ImageIcon(exclamationIconUrl) : null);
 
         names = new EnumMap<>(QualityRating.class);
-        names.put(QualityRating.Good, "Gut");
-        names.put(QualityRating.OK, "OK");
-        names.put(QualityRating.Unknown, "Nicht ausgewertet");
-        names.put(QualityRating.Risk, "Risiko");
-        names.put(QualityRating.Poor, "Schlecht");
-        names.put(QualityRating.Critical, "Kritisch");
+        names.put(QualityRating.Good, Messages.get("quality.good"));
+        names.put(QualityRating.OK, Messages.get("quality.ok"));
+        names.put(QualityRating.Unknown, Messages.get("quality.unknown"));
+        names.put(QualityRating.Risk, Messages.get("quality.risk"));
+        names.put(QualityRating.Poor, Messages.get("quality.poor"));
+        names.put(QualityRating.Critical, Messages.get("quality.critical"));
     }
 
     @Override
@@ -42,7 +42,7 @@ public class QualityRatingCellRenderer extends DefaultTableCellRenderer {
         var c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         if (value instanceof QualityRating q) {
             setIcon(icons.getOrDefault(q, null));
-            setText(names.getOrDefault(q, "Unbekannt"));
+            setText(names.getOrDefault(q, Messages.get("quality.fallback")));
             if (value == QualityRating.Critical){
                 c.setFont(c.getFont().deriveFont(Font.BOLD));
             }

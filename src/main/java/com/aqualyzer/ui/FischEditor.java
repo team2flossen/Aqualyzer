@@ -30,6 +30,7 @@ public class FischEditor extends JDialog {
 
     public FischEditor(String title) {
         $$$setupUI$$$();
+        localizeComponents();
         setTitle(title);
         setContentPane(contentPane);
         setModal(true);
@@ -45,6 +46,18 @@ public class FischEditor extends JDialog {
         salinitySlider.addChangeListener(e -> onSalinityChanged());
         pack();
         setLocationRelativeTo(null);
+    }
+
+    private void localizeComponents() {
+        sciNameLabel.setText(Messages.get("editor.fish.label.scientificName"));
+        abbrechenButton.setText(Messages.get("editor.fish.button.cancel"));
+        hinzufuegenButton.setText(Messages.get("editor.fish.button.confirm"));
+        Messages.relabel(contentPane, "Bezeichnung", Messages.get("editor.fish.label.name"));
+        Messages.relabel(contentPane, "pH-Toleranz", Messages.get("editor.fish.label.phTolerance"));
+        Messages.relabel(contentPane, "Temperatur-Toleranz (°C)", Messages.get("editor.fish.label.temperatureTolerance"));
+        Messages.relabel(contentPane, "Sauerstoff-Toleranz (mg/L)", Messages.get("editor.fish.label.oxygenTolerance"));
+        Messages.relabel(contentPane, "Salzgehalt-Toleranz (PSU)", Messages.get("editor.fish.label.salinityTolerance"));
+        Messages.relabel(contentPane, "Bemerkung", Messages.get("editor.fish.label.comment"));
     }
 
     private Fish fish;

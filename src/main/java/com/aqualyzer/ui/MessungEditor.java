@@ -27,7 +27,8 @@ public class MessungEditor extends JDialog {
     public MessungEditor() {
 
         $$$setupUI$$$();
-        setTitle("Messung erfassen");
+        localizeComponents();
+        setTitle(Messages.get("editor.measurement.title"));
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(okButton);
@@ -273,6 +274,17 @@ public class MessungEditor extends JDialog {
      */
     public JComponent $$$getRootComponent$$$() {
         return contentPane;
+    }
+
+    private void localizeComponents() {
+        stationLabel.setText(Messages.get("editor.measurement.label.station"));
+        okButton.setText(Messages.get("editor.measurement.button.confirm"));
+        cancelButton.setText(Messages.get("editor.measurement.button.cancel"));
+        Messages.relabel(contentPane, "Zeitstempel", Messages.get("editor.measurement.label.timestamp"));
+        Messages.relabel(contentPane, "pH-Wert", Messages.get("editor.measurement.label.phValue"));
+        Messages.relabel(contentPane, "Wassertemperatur (°C)", Messages.get("editor.measurement.label.waterTemperature"));
+        Messages.relabel(contentPane, "Sauerstoffgehalt  (mg/L)", Messages.get("editor.measurement.label.oxygenLevel"));
+        Messages.relabel(contentPane, "Salzgehalt (PSU)", Messages.get("editor.measurement.label.salinity"));
     }
 
     private void createUIComponents() {

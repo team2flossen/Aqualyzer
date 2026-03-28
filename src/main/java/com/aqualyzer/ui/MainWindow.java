@@ -69,9 +69,9 @@ public class MainWindow extends JFrame {
 
     private void makeMenus() {
         menuBar = new JMenuBar();
-        menuFile = new JMenu("Datei");
-        menuFileExport = new JMenuItem("Ergebnisse exportieren");
-        menuFileExit = new JMenuItem("Beenden");
+        menuFile = new JMenu(Messages.get("main.menu.file"));
+        menuFileExport = new JMenuItem(Messages.get("main.menu.file.export"));
+        menuFileExit = new JMenuItem(Messages.get("main.menu.file.exit"));
         menuFile.add(menuFileExport);
         menuFile.addSeparator();
         menuFile.add(menuFileExit);
@@ -101,9 +101,16 @@ public class MainWindow extends JFrame {
         var model = new DefaultTableModel(
                 new Object[displayResults.size()][10],
                 new String[]{
-                        "Zeit", "Station", "Wassertemperatur", "Temperaturbewertung",
-                        "pH-Wert", "pH-Bewertung", "Salzgehalt", "Salzgehalt-Bewertung",
-                        "Sauerstoffgehalt", "Sauerstoffbewertung"
+                        Messages.get("main.table.header.time"),
+                        Messages.get("main.table.header.station"),
+                        Messages.get("main.table.header.waterTemperature"),
+                        Messages.get("main.table.header.temperatureRating"),
+                        Messages.get("main.table.header.phValue"),
+                        Messages.get("main.table.header.phRating"),
+                        Messages.get("main.table.header.salinity"),
+                        Messages.get("main.table.header.salinityRating"),
+                        Messages.get("main.table.header.oxygenLevel"),
+                        Messages.get("main.table.header.oxygenRating")
                 }
         ) {
             @Override
@@ -158,9 +165,9 @@ public class MainWindow extends JFrame {
         var rowCount = model.getRowCount();
         var totalCount = measurements.size();
         if (currentSearchText.isEmpty()) {
-            dataStatusLabel.setText(rowCount == 1 ? rowCount + " Datensatz" : rowCount + " Datensätze");
+            dataStatusLabel.setText(Messages.get("main.status.recordCount", rowCount));
         } else {
-            dataStatusLabel.setText(rowCount + " von " + totalCount + " Datensätzen");
+            dataStatusLabel.setText(Messages.get("main.status.filteredRecordCount", rowCount, totalCount));
         }
         model.addTableModelListener(e -> {
             if (e.getType() != TableModelEvent.UPDATE) {
@@ -186,14 +193,14 @@ public class MainWindow extends JFrame {
                 }
                 waterMeasurementService.updateMeasurement(measurement);
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Ungültiger Zahlenwert: " + value);
+                JOptionPane.showMessageDialog(null, Messages.get("main.dialog.invalidNumber", value));
             }
 
             var count = model.getRowCount();
             if (currentSearchText.isEmpty()) {
-                dataStatusLabel.setText(count == 1 ? count + " Datensatz" : count + " Datensätze");
+                dataStatusLabel.setText(Messages.get("main.status.recordCount", count));
             } else {
-                dataStatusLabel.setText(count + " von " + measurements.size() + " Datensätzen");
+                dataStatusLabel.setText(Messages.get("main.status.filteredRecordCount", count, measurements.size()));
             }
         });
 
@@ -272,7 +279,7 @@ public class MainWindow extends JFrame {
         this.resultService = resultService;
         this.importService = importService;
 
-        setTitle("Aqualyzer");
+        setTitle(Messages.get("app.title"));
         setContentPane(contentPane);
         setSize(1600, 1200);
         setJMenuBar(menuBar);
@@ -311,10 +318,44 @@ public class MainWindow extends JFrame {
     }
 
     private void createUIComponents() {
+        localizeComponents();
         makeMenus();
         fillFish();
         makeTable();
         connectUi();
+    }
+
+    private void localizeComponents() {
+        programStatusLabel.setText(Messages.get("main.label.ready"));
+        dataStatusLabel.setText(Messages.get("main.label.noData"));
+        resultsTitle.setText(Messages.get("main.label.measurements"));
+        searchLabel.setText(Messages.get("main.label.search"));
+        fishTitle.setText(Messages.get("main.label.fishType"));
+        neuerFischButton.setText(Messages.get("main.button.new"));
+        editFishButton.setText(Messages.get("main.button.edit"));
+        deleteFishButton.setText(Messages.get("main.button.delete"));
+        zeitreiheImportierenButton.setText(Messages.get("main.button.import"));
+        messungErfassenButton.setText(Messages.get("main.button.record"));
+        refreshMeasurementsButton.setText(Messages.get("main.button.refresh"));
+        calculateScoreButton.setText(Messages.get("main.button.evaluate"));
+        deleteResultButton.setText(Messages.get("main.button.delete"));
+        exportResultButton.setText(Messages.get("main.button.export"));
+        clearSearchButton.setText(Messages.get("main.button.clearSearch"));
+        clearSearchButton.setToolTipText(Messages.get("main.tooltip.clearSearch"));
+
+        // Status-Labels aus dem GridBagLayout entkoppeln, damit sie Spalte 0 nicht aufblähen
+        contentPane.remove(programStatusLabel);
+        contentPane.remove(dataStatusLabel);
+
+        var statusBar = new JPanel(new BorderLayout());
+        statusBar.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        statusBar.add(programStatusLabel, BorderLayout.WEST);
+        statusBar.add(dataStatusLabel, BorderLayout.EAST);
+
+        var wrapper = new JPanel(new BorderLayout());
+        wrapper.add(contentPane, BorderLayout.CENTER);
+        wrapper.add(statusBar, BorderLayout.SOUTH);
+        setContentPane(wrapper);
     }
 
     private void fillFish() {
@@ -375,13 +416,13 @@ public class MainWindow extends JFrame {
     private void onDeleteFishButtonClicked() {
         var selectedFish = (Fish) fishSelection.getSelectedItem();
         if (selectedFish == null) {
-            JOptionPane.showMessageDialog(this, "Es ist keine Fischart ausgewählt", "Fehler", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, Messages.get("main.dialog.noFishSelected"), Messages.get("main.dialog.noFishSelected.title"), JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         int response = JOptionPane.showConfirmDialog(this,
-                "Möchten Sie die Fischart '" + selectedFish.getName() + "' wirklich löschen?",
-                "Fischart löschen",
+                Messages.get("main.dialog.confirmDeleteFish", selectedFish.getName()),
+                Messages.get("main.dialog.confirmDeleteFish.title"),
                 JOptionPane.YES_NO_OPTION);
 
         if (response == JOptionPane.YES_OPTION) {
@@ -390,12 +431,12 @@ public class MainWindow extends JFrame {
             fillFish();
             fishSelection.setSelectedIndex(-1);
             makeTable();
-            programStatusLabel.setText("Fischart gelöscht");
+            programStatusLabel.setText(Messages.get("main.status.fishDeleted"));
         }
     }
 
     private void onEditFishButtonClicked() {
-        var editor = new FischEditor("Fischart bearbeiten");
+        var editor = new FischEditor(Messages.get("editor.fish.title.edit"));
         var fish = (Fish) fishSelection.getSelectedItem();
         editor.setFish(fish);
         editor.setVisible(true);
@@ -404,7 +445,7 @@ public class MainWindow extends JFrame {
     }
 
     private void onNeuerFischButtonClicked() {
-        var editor = new FischEditor("Fischart hinzufügen");
+        var editor = new FischEditor(Messages.get("editor.fish.title.add"));
         editor.setVisible(true);
         editor.setModal(true);
 
@@ -433,8 +474,8 @@ public class MainWindow extends JFrame {
         if (count == 0) return;
 
         var confirmed = JOptionPane.showConfirmDialog(this,
-                "Sie sind im Begriff " + count + " Datensätze zu löschen. Fortfahren?",
-                "Auswertungen löschen",
+                Messages.get("main.dialog.confirmDeleteRecords", count),
+                Messages.get("main.dialog.confirmDeleteRecords.title"),
                 JOptionPane.YES_NO_OPTION);
 
         if (confirmed != JOptionPane.YES_OPTION) return;
@@ -451,7 +492,7 @@ public class MainWindow extends JFrame {
         }
 
         makeTable();
-        programStatusLabel.setText(count + " Messung" + (count == 1 ? "" : "en") + " gelöscht");
+        programStatusLabel.setText(Messages.get("main.status.deletedMeasurements", count));
 
     }
 
@@ -466,9 +507,9 @@ public class MainWindow extends JFrame {
             waterMeasurementService.addMeasurement(measurement);
             measurements.add(measurement);
             makeTable();
-            programStatusLabel.setText("Messung erfasst");
+            programStatusLabel.setText(Messages.get("main.status.measurementRecorded"));
         } else {
-            programStatusLabel.setText("Keine Messung erfasst");
+            programStatusLabel.setText(Messages.get("main.status.noMeasurementRecorded"));
         }
 
 
@@ -476,20 +517,20 @@ public class MainWindow extends JFrame {
 
     private void onCalculateButtonClicked() {
         if (fishSelection.getSelectedItem() == null) {
-            JOptionPane.showMessageDialog(this, "Bitte wählen Sie eine Fischart aus.",
+            JOptionPane.showMessageDialog(this, Messages.get("main.dialog.selectFishFirst"),
                     "", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
         if (measurements.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Es sind keine Datensätze vorhanden.",
+            JOptionPane.showMessageDialog(this, Messages.get("main.dialog.noData"),
                     "", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
-        programStatusLabel.setText("Berechne...");
+        programStatusLabel.setText(Messages.get("main.status.calculating"));
         calculateRatings();
-        programStatusLabel.setText("Auswertung abgeschlossen");
+        programStatusLabel.setText(Messages.get("main.status.evaluationComplete"));
     }
 
 
@@ -503,25 +544,25 @@ public class MainWindow extends JFrame {
         var charset = picker.getCharset();
         var delim = picker.getDelimiter();
         if (path == null || path.isEmpty()) {
-            programStatusLabel.setText("Import abgebrochen");
+            programStatusLabel.setText(Messages.get("main.status.importCancelled"));
             return;
         }
 
-        programStatusLabel.setText("Importiere Messungen...");
+        programStatusLabel.setText(Messages.get("main.status.importing"));
 
         try {
             var imported = importService.fromCsv(path, delim, charset);
 
             measurements.addAll(imported);
-            programStatusLabel.setText("Import abgeschlossen, " + imported.size() + " Messungen importiert");
+            programStatusLabel.setText(Messages.get("main.status.importComplete", imported.size()));
             makeTable();
 
         } catch (Exception e) {
 
-            JOptionPane.showMessageDialog(this, "Aus der Datei konnten keine Messungen importiert werden. Prüfen Sie Kodierung und Inhalt der Datei.",
-                    "Import fehlgeschlagen", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, Messages.get("main.dialog.importError"),
+                    Messages.get("main.dialog.importError.title"), JOptionPane.ERROR_MESSAGE);
 
-            programStatusLabel.setText("Import fehlgeschlagen.");
+            programStatusLabel.setText(Messages.get("main.status.importFailed"));
         }
 
 
@@ -533,19 +574,19 @@ public class MainWindow extends JFrame {
 
     private void onExportResultsClicked() {
         if (measurements.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Es sind keine Datensätze vorhanden zum Exportieren.",
-                    "Keine Daten", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, Messages.get("main.dialog.noDataToExport"),
+                    Messages.get("main.dialog.noDataToExport.title"), JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
         var fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("CSV-Datei speichern");
+        fileChooser.setDialogTitle(Messages.get("main.dialog.saveAsCsv"));
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV-Dateien (*.csv)", "csv"));
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter(Messages.get("main.dialog.csvFilter"), "csv"));
 
         int result = fileChooser.showSaveDialog(this);
         if (result != JFileChooser.APPROVE_OPTION) {
-            programStatusLabel.setText("Export abgebrochen");
+            programStatusLabel.setText(Messages.get("main.status.exportCancelled"));
             return;
         }
 
@@ -559,13 +600,13 @@ public class MainWindow extends JFrame {
         try {
             var exportService = new CsvExportService();
             exportService.exportToCsv(measurements, resultsByMeasurement, filePath);
-            programStatusLabel.setText("Export erfolgreich abgeschlossen: " + filePath);
-            JOptionPane.showMessageDialog(this, "Ergebnisse erfolgreich exportiert in:\n" + filePath,
-                    "Export erfolgreich", JOptionPane.INFORMATION_MESSAGE);
+            programStatusLabel.setText(Messages.get("main.status.exportComplete", filePath));
+            JOptionPane.showMessageDialog(this, Messages.get("main.dialog.exportSuccess", filePath),
+                    Messages.get("main.dialog.exportSuccess.title"), JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
-            programStatusLabel.setText("Export fehlgeschlagen");
-            JOptionPane.showMessageDialog(this, "Der Export ist fehlgeschlagen:\n" + e.getMessage(),
-                    "Export fehlgeschlagen", JOptionPane.ERROR_MESSAGE);
+            programStatusLabel.setText(Messages.get("main.status.exportFailed"));
+            JOptionPane.showMessageDialog(this, Messages.get("main.dialog.exportError", e.getMessage()),
+                    Messages.get("main.dialog.exportError.title"), JOptionPane.ERROR_MESSAGE);
         }
     }
 
