@@ -55,7 +55,7 @@ Für jede Fischart können Toleranzbereiche für diese vier Parameter definiert 
 
 Jede Fischart besitzt einen bestimmten Toleranzbereich, in dem sie überleben kann. Werden die Grenzen dieses Bereichs überschritten, kann der Fisch langfristig nicht überleben.
 
-Um zu bewerten, wie gut die Umweltbedingungen für eine Fischart geeignet sind, orientiert sich die Berechnung am **Mittelwert des jeweiligen Toleranzbereichs**.
+Um zu bewerten, wie gut die Umweltbedingungen für eine Fischart geeignet sind, orientiert sich die Berechnung am Mittelwert des jeweiligen Toleranzbereichs.
 
 ![qualität](qualität.png)
 
