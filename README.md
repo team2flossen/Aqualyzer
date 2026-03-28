@@ -10,7 +10,7 @@ For now, it remains unclear what type of water is involved. Possible examples in
 
 ---
 
-# Goal of the application
+# Application Goal
 
 The application is designed to enable users to:
 
@@ -24,7 +24,7 @@ An overview of these functions is shown in the component diagram below:
 
 ---
 
-# Functions of the application
+# Application Features
 
 This app offers the following features:
 
