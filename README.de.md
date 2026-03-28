@@ -14,9 +14,9 @@ Dabei bleibt zunächst offen, um welche Art von Gewässer es sich handelt. Mögl
 
 Die Anwendung soll es ermöglichen:
 
-- **Wasserdaten zu erfassen oder zu importieren**
-- **Toleranzbereiche verschiedener Fischarten zu definieren**
-- **die Kompatibilität zwischen Fischarten und Gewässerbedingungen auszuwerten**
+- Wasserdaten zu erfassen oder zu importieren
+- Toleranzbereiche verschiedener Fischarten zu definieren
+- die Kompatibilität zwischen Fischarten und Gewässerbedingungen auszuwerten
 
 ---
 

@@ -14,9 +14,9 @@ For now, it remains unclear what type of water is involved. Possible examples in
 
 The application is designed to enable users to:
 
-- **Collect or import water data**
-- **Define tolerance ranges for different fish species**
-- **Evaluate compatibility between fish species and water conditions**
+- Collect or import water data
+-*Define tolerance ranges for different fish species
+- Evaluate compatibility between fish species and water conditions
 
 ---
 
