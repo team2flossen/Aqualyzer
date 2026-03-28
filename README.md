@@ -71,5 +71,5 @@ Liegt der gemessene pH-Wert bei 7, wird überprüft, wie nah dieser Wert am opti
 
 ## Contributors
 
-<!-- readme: contributors -start -->
-<!-- readme: contributors -end -->
+<!-- readme: collaborators,contributors -start -->
+<!-- readme: collaborators,contributors -end -->
