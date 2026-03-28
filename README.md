@@ -18,10 +18,6 @@ The application is designed to enable users to:
 - **Define tolerance ranges for different fish species**
 - **Evaluate compatibility between fish species and water conditions**
 
-An overview of these functions is shown in the component diagram below:
-
-![komponenten](komponenten.png)
-
 ---
 
 # Application Features
@@ -56,7 +52,7 @@ Each fish species has a specific tolerance range within which it can survive. If
 
 To assess how well the environmental conditions suit a fish species, the calculation is based on the*mean value of the respective tolerance range.
 
-![qualität](qualität.png)
+![quality](quality.jpeg)
 
 Example:
 
