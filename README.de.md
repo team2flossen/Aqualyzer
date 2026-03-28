@@ -18,10 +18,6 @@ Die Anwendung soll es ermöglichen:
 - **Toleranzbereiche verschiedener Fischarten zu definieren**
 - **die Kompatibilität zwischen Fischarten und Gewässerbedingungen auszuwerten**
 
-Eine Übersicht über diese Funktionen wird im zugehörigen Komponentendiagramm dargestellt:
-
-![komponenten](komponenten.png)
-
 ---
 
 # Funktionen der Anwendung
