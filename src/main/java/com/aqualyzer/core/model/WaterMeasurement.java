@@ -1,6 +1,5 @@
 package com.aqualyzer.core.model;
 
-import com.aqualyzer.core.enums.QualityRating;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -43,22 +42,6 @@ public class WaterMeasurement {
     @Column(name = "psu")
     @Min(0) @Max(80)
     private Double psu;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "ph_rating")
-    private QualityRating phRating = QualityRating.Unknown;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "temperature_rating")
-    private QualityRating temperatureRating = QualityRating.Unknown;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "oxygen_rating")
-    private QualityRating oxygenRating = QualityRating.Unknown;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "salinity_rating")
-    private QualityRating salinityRating = QualityRating.Unknown;
 
     public WaterMeasurement() {}
 
@@ -105,16 +88,4 @@ public class WaterMeasurement {
 
     public Double getPsu() { return psu; }
     public void setPsu(Double psu) { this.psu = psu; }
-
-    public QualityRating getPhRating() { return phRating; }
-    public void setPhRating(QualityRating phRating) { this.phRating = phRating; }
-
-    public QualityRating getTemperatureRating() { return temperatureRating; }
-    public void setTemperatureRating(QualityRating temperatureRating) { this.temperatureRating = temperatureRating; }
-
-    public QualityRating getOxygenRating() { return oxygenRating; }
-    public void setOxygenRating(QualityRating oxygenRating) { this.oxygenRating = oxygenRating; }
-
-    public QualityRating getSalinityRating() { return salinityRating; }
-    public void setSalinityRating(QualityRating salinityRating) { this.salinityRating = salinityRating; }
 }

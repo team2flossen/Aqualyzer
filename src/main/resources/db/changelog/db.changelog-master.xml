@@ -112,4 +112,55 @@
             <column name="comment" type="varchar(255)"/>
         </addColumn>
     </changeSet>
+    <changeSet id="14" author="claude">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="measures" columnName="ph_rating"/>
+            </not>
+        </preConditions>
+        <comment>No-op: rating columns on measures were added by hibernate in some dev environments.
+               This changeset ensures those environments don't break. Columns are unused now.</comment>
+        <addColumn tableName="measures">
+            <column name="ph_rating" type="varchar(20)" defaultValue="Unknown"/>
+            <column name="temperature_rating" type="varchar(20)" defaultValue="Unknown"/>
+            <column name="oxygen_rating" type="varchar(20)" defaultValue="Unknown"/>
+            <column name="salinity_rating" type="varchar(20)" defaultValue="Unknown"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="15" author="claude">
+        <createTable tableName="results">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="measurement_id" type="UUID">
+                <constraints nullable="false"
+                             foreignKeyName="fk_result_measurement"
+                             references="measures(id)"/>
+            </column>
+            <column name="fish_id" type="UUID">
+                <constraints nullable="false"
+                             foreignKeyName="fk_result_fish"
+                             references="fish(id)"/>
+            </column>
+            <column name="ph_rating" type="varchar(20)" defaultValue="Unknown"/>
+            <column name="temperature_rating" type="varchar(20)" defaultValue="Unknown"/>
+            <column name="oxygen_rating" type="varchar(20)" defaultValue="Unknown"/>
+            <column name="salinity_rating" type="varchar(20)" defaultValue="Unknown"/>
+        </createTable>
+        <addUniqueConstraint tableName="results"
+                             columnNames="measurement_id, fish_id"
+                             constraintName="uq_result_measurement_fish"/>
+    </changeSet>
+
+    <changeSet id="16" author="claude">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="measures" columnName="ph_rating"/>
+        </preConditions>
+        <dropColumn tableName="measures" columnName="ph_rating"/>
+        <dropColumn tableName="measures" columnName="temperature_rating"/>
+        <dropColumn tableName="measures" columnName="oxygen_rating"/>
+        <dropColumn tableName="measures" columnName="salinity_rating"/>
+    </changeSet>
+
 </databaseChangeLog>
