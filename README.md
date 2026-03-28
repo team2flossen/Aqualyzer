@@ -1,3 +1,5 @@
+[![de](https://img.shields.io/badge/lang-de-blue.svg)](https://github.com/team2flossen/Aqualyzer/blob/master/README.de.md)
+
 # The Aqualizer
 
 This school project is based on the UN sustainability goal "Life Below Water". As part of the project, we took an in-depth look at various issues, including overfishing, ocean acidification, and water pollution.
@@ -63,3 +65,7 @@ If the measured pH value is 7, the system checks how close this value is to the 
 - **risky**
 - **poor**
 - **critical**
+
+## Contributors
+
+[View all contributors](https://github.com/team2flossen/Aqualyzer/contributors)
