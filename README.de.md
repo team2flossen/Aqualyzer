@@ -1,3 +1,5 @@
+[![de](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/team2flossen/Aqualyzer/blob/master/README.md)
+
 # Der Aqualizer
 
 Dieses Schulprojekt entstand auf Grundlage des UN-Nachhaltigkeitsziels **„Leben unter Wasser“ (Life Below Water)**. Im Rahmen des Projekts haben wir uns intensiv mit verschiedenen Problemfeldern beschäftigt, darunter Überfischung, Übersäuerung von Gewässern sowie Wasserverschmutzung.

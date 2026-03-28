@@ -1,3 +1,5 @@
+[![de](https://img.shields.io/badge/lang-de-blue.svg)](https://github.com/team2flossen/Aqualyzer/blob/master/README.de.md)
+
 # The Aqualizer
 
 This school project is based on the UN sustainability goal "Life Below Water". As part of the project, we took an in-depth look at various issues, including overfishing, ocean acidification, and water pollution.
