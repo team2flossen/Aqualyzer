@@ -43,6 +43,7 @@
           <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
+          <maximum value="99"/>
           <minimum value="-40"/>
           <upperValue value="50"/>
           <value value="0"/>

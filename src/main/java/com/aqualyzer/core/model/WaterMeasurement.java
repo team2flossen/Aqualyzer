@@ -1,5 +1,6 @@
 package com.aqualyzer.core.model;
 
+import com.aqualyzer.core.enums.QualityRating;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -43,9 +44,24 @@ public class WaterMeasurement {
     @Min(0) @Max(80)
     private Double psu;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ph_rating")
+    private QualityRating phRating = QualityRating.Unknown;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "temperature_rating")
+    private QualityRating temperatureRating = QualityRating.Unknown;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "oxygen_rating")
+    private QualityRating oxygenRating = QualityRating.Unknown;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "salinity_rating")
+    private QualityRating salinityRating = QualityRating.Unknown;
+
     public WaterMeasurement() {}
 
-    /** Für den manuellen Erfassen-Dialog — nimmt ein Date-Objekt direkt entgegen. */
     public WaterMeasurement(Date timestamp, String name, Double psu, Double phValue,
                             Double temperature, Double o2concentration) {
         this.timestamp = timestamp;
@@ -56,7 +72,6 @@ public class WaterMeasurement {
         this.psu = psu;
     }
 
-    /** Für den CSV-Import — parst den Zeitstempel aus dem Dateiformat "dd.MM.yyyy HH:mm". */
     public WaterMeasurement(String timestamp, String name, Double psu, Double phValue,
                             Double temperature, Double o2concentration) throws ParseException {
         this.timestamp = new SimpleDateFormat("dd.MM.yyyy HH:mm").parse(timestamp);
@@ -90,4 +105,16 @@ public class WaterMeasurement {
 
     public Double getPsu() { return psu; }
     public void setPsu(Double psu) { this.psu = psu; }
+
+    public QualityRating getPhRating() { return phRating; }
+    public void setPhRating(QualityRating phRating) { this.phRating = phRating; }
+
+    public QualityRating getTemperatureRating() { return temperatureRating; }
+    public void setTemperatureRating(QualityRating temperatureRating) { this.temperatureRating = temperatureRating; }
+
+    public QualityRating getOxygenRating() { return oxygenRating; }
+    public void setOxygenRating(QualityRating oxygenRating) { this.oxygenRating = oxygenRating; }
+
+    public QualityRating getSalinityRating() { return salinityRating; }
+    public void setSalinityRating(QualityRating salinityRating) { this.salinityRating = salinityRating; }
 }

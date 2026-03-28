@@ -25,6 +25,11 @@ public class WaterMeasurementService {
     }
 
     @Transactional
+    public void updateMeasurement(WaterMeasurement measurement) {
+        repo.save(measurement);
+    }
+
+    @Transactional
     public void deleteMeasurement(WaterMeasurement measurement) {
         repo.delete(measurement);
     }

@@ -165,6 +165,7 @@ public class FischEditor extends JDialog {
         gbc.insets = new Insets(5, 5, 5, 5);
         contentPane.add(phSlider, gbc);
         tempSlider.setMinimum(-40);
+        tempSlider.setMaximum(99);
         tempSlider.setUpperValue(50);
         tempSlider.setValue(0);
         gbc = new GridBagConstraints();

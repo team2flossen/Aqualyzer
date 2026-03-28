@@ -1,7 +1,6 @@
 package com.aqualyzer.core;
 
 import com.aqualyzer.core.model.WaterMeasurement;
-import com.aqualyzer.ui.viewmodels.ResultListViewModel;
 
 import java.io.FileReader;
 import java.nio.charset.Charset;
@@ -20,7 +19,7 @@ public class ImportService {
         this.waterMeasurementService = waterMeasurementService;
     }
 
-    public List<ResultListViewModel> fromCsv(String path, char delim, Charset charset){
+    public List<WaterMeasurement> fromCsv(String path, char delim, Charset charset){
 
         int recordNumber = 0;
 
@@ -36,7 +35,7 @@ public class ImportService {
 
             String station = null;
             var metricIndex = new HashMap<Integer, String>();
-            var results = new ArrayList<ResultListViewModel>();
+            var results = new ArrayList<WaterMeasurement>();
 
             boolean inHeader = true;
 
@@ -107,9 +106,7 @@ public class ImportService {
                         o2concentration);
 
                 waterMeasurementService.addMeasurement(waterMeasurement);
-
-                var result = new ResultListViewModel(waterMeasurement);
-                results.add(result);
+                results.add(waterMeasurement);
 
             }
 

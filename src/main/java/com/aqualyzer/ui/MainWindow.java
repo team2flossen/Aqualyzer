@@ -10,9 +10,9 @@ import com.aqualyzer.core.rule.PhRatingRule;
 import com.aqualyzer.core.rule.SalinityRatingRule;
 import com.aqualyzer.core.rule.TemperatureRatingRule;
 import com.aqualyzer.core.rule.O2ConcentrationRatingRule;
-import com.aqualyzer.ui.viewmodels.ResultListViewModel;
 
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.ZoneId;
@@ -28,10 +28,10 @@ public class MainWindow extends JFrame {
     private final WaterMeasurementService waterMeasurementService;
     private final ImportService importService;
 
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yy-MM-dd HH:mm:ss");
 
-    private final List<ResultListViewModel> results = new ArrayList<>();
-    private List<ResultListViewModel> filteredResults = new ArrayList<>();
+    private final List<WaterMeasurement> results = new ArrayList<>();
+    private List<WaterMeasurement> filteredResults = new ArrayList<>();
     private String currentSearchText = "";
 
     private JPanel contentPane;
@@ -80,26 +80,38 @@ public class MainWindow extends JFrame {
                         "pH-Wert", "pH-Bewertung", "Salzgehalt", "Salzgehalt-Bewertung",
                         "Sauerstoffgehalt", "Sauerstoffbewertung"
                 }
-        );
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                List<Integer> columns = List.of(2, 4, 6, 8);
+                return columns.contains(column);
+            }
 
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return switch (columnIndex) {
+                    case 2, 4, 6, 8 -> Double.class;
+                    default -> String.class;
+                };
+            }
+        };
 
         for (int i = 0; i < displayResults.size(); i++) {
-            var r = displayResults.get(i);
-            var measurement = r.getMeasurement();
-            var sortableDate = measurement.getTimestamp().toInstant()
+            var m = displayResults.get(i);
+            var sortableDate = m.getTimestamp().toInstant()
                     .atZone(ZoneId.systemDefault())
                     .toLocalDateTime()
                     .format(DATE_FORMATTER);
             model.setValueAt(sortableDate, i, 0);
-            model.setValueAt(measurement.getName(), i, 1);
-            model.setValueAt(measurement.getTemperature(), i, 2);
-            model.setValueAt(r.getTemperatureRating(), i, 3);
-            model.setValueAt(measurement.getPhValue(), i, 4);
-            model.setValueAt(r.getPhRating(), i, 5);
-            model.setValueAt(measurement.getPsu(), i, 6);
-            model.setValueAt(r.getSalinityRating(), i, 7);
-            model.setValueAt(measurement.getO2concentration(), i, 8);
-            model.setValueAt(r.getOxygenRating(), i, 9);
+            model.setValueAt(m.getName(), i, 1);
+            model.setValueAt(m.getTemperature(), i, 2);
+            model.setValueAt(m.getTemperatureRating(), i, 3);
+            model.setValueAt(m.getPhValue(), i, 4);
+            model.setValueAt(m.getPhRating(), i, 5);
+            model.setValueAt(m.getPsu(), i, 6);
+            model.setValueAt(m.getSalinityRating(), i, 7);
+            model.setValueAt(m.getO2concentration(), i, 8);
+            model.setValueAt(m.getOxygenRating(), i, 9);
         }
 
         resultTable.setModel(model);
@@ -126,6 +138,32 @@ public class MainWindow extends JFrame {
             dataStatusLabel.setText(rowCount + " von " + totalCount + " Datensätzen");
         }
         model.addTableModelListener(e -> {
+            if (e.getType() != TableModelEvent.UPDATE) {
+                return;
+            }
+
+            int row = e.getFirstRow();
+            int column = e.getColumn();
+
+            if (row < 0 || column < 0) {
+                return;
+            }
+
+            var measurement = displayResults.get(row);
+            Object value = model.getValueAt(row, column);
+
+            try {
+                switch (column) {
+                    case 2 -> measurement.setTemperature(Double.parseDouble(value.toString()));
+                    case 4 -> measurement.setPhValue(Double.parseDouble(value.toString()));
+                    case 6 -> measurement.setPsu(Double.parseDouble(value.toString()));
+                    case 8 -> measurement.setO2concentration(Double.parseDouble(value.toString()));
+                }
+                waterMeasurementService.updateMeasurement(measurement);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Ungültiger Zahlenwert: " + value);
+            }
+
             var count = model.getRowCount();
             if (currentSearchText.isEmpty()) {
                 dataStatusLabel.setText(count == 1 ? count + " Datensatz" : count + " Datensätze");
@@ -144,8 +182,7 @@ public class MainWindow extends JFrame {
 
         var searchLower = currentSearchText.toLowerCase();
         filteredResults = results.stream()
-                .filter(r -> {
-                    var m = r.getMeasurement();
+                .filter(m -> {
                     var dateStr = m.getTimestamp().toInstant()
                             .atZone(ZoneId.systemDefault())
                             .toLocalDateTime()
@@ -169,21 +206,19 @@ public class MainWindow extends JFrame {
 
         var selectedRows = resultTable.getSelectedRows();
 
+        var fish = (Fish) fishSelection.getSelectedItem();
+
         if (selectedRows.length == 0) {
-            for (var r : results) {
-                r.setFish((Fish) fishSelection.getSelectedItem());
-                var measurement = r.getMeasurement();
-                var fish = r.getFish();
-                applyRules(phRule, tempRule, salinityRule, o2Rule, r, fish, measurement);
+            for (var m : results) {
+                applyRules(phRule, tempRule, salinityRule, o2Rule, m, fish);
+                waterMeasurementService.updateMeasurement(m);
             }
         } else {
             var displayResults = filteredResults.isEmpty() && currentSearchText.isEmpty() ? results : filteredResults;
             for (var row : selectedRows) {
-                var r = displayResults.get(resultTable.convertRowIndexToModel(row));
-                r.setFish((Fish) fishSelection.getSelectedItem());
-                var measurement = r.getMeasurement();
-                var fish = r.getFish();
-                applyRules(phRule, tempRule, salinityRule, o2Rule, r, fish, measurement);
+                var m = displayResults.get(resultTable.convertRowIndexToModel(row));
+                applyRules(phRule, tempRule, salinityRule, o2Rule, m, fish);
+                waterMeasurementService.updateMeasurement(m);
             }
         }
 
@@ -196,14 +231,12 @@ public class MainWindow extends JFrame {
             TemperatureRatingRule tempRule,
             SalinityRatingRule salinityRule,
             O2ConcentrationRatingRule o2Rule,
-            ResultListViewModel result,
-            Fish fish,
-            WaterMeasurement measure) {
-        result.setPhRating(phRule.apply(fish.getPhMin(), fish.getPhMax(), measure.getPhValue()));
-        result.setTemperatureRating(tempRule.apply(fish.getTempMin(), fish.getTempMax(), measure.getTemperature()));
-        result.setOxygenRating(o2Rule.apply(fish.getO2ConcentrationMin(), fish.getO2ConcentrationMax(), measure.getO2concentration()));
-        result.setSalinityRating(salinityRule.apply(fish.getPsuMin(), fish.getPsuMax(), measure.getPsu()));
-
+            WaterMeasurement m,
+            Fish fish) {
+        m.setPhRating(phRule.apply(fish.getPhMin(), fish.getPhMax(), m.getPhValue()));
+        m.setTemperatureRating(tempRule.apply(fish.getTempMin(), fish.getTempMax(), m.getTemperature()));
+        m.setOxygenRating(o2Rule.apply(fish.getO2ConcentrationMin(), fish.getO2ConcentrationMax(), m.getO2concentration()));
+        m.setSalinityRating(salinityRule.apply(fish.getPsuMin(), fish.getPsuMax(), m.getPsu()));
     }
 
     public MainWindow(
@@ -226,12 +259,8 @@ public class MainWindow extends JFrame {
     }
 
     private void initList() {
-        var all = waterMeasurementService.getAll();
-        for (var wm : all) {
-            results.add(new ResultListViewModel(wm));
-        }
-
-       makeTable();
+        results.addAll(waterMeasurementService.getAll());
+        makeTable();
     }
 
     private void getNewWaterMeasurement() {
@@ -245,15 +274,14 @@ public class MainWindow extends JFrame {
         var all = waterMeasurementService.getAll();
 
         var mostRecent = results.stream()
-                .max(Comparator.comparing(r -> r.getMeasurement().getTimestamp()))
+                .max(Comparator.comparing(WaterMeasurement::getTimestamp))
                 .orElseThrow();
 
         var newWms = all.stream()
-                .filter(wm -> !wm.getTimestamp().before(mostRecent.getMeasurement().getTimestamp()))
+                .filter(wm -> !wm.getTimestamp().before(mostRecent.getTimestamp()))
                 .toList();
 
-        for (var wm : newWms)
-            results.add(new ResultListViewModel(wm));
+        results.addAll(newWms);
 
         makeTable();
     }
@@ -369,12 +397,11 @@ public class MainWindow extends JFrame {
         editFishButton.setEnabled(fish != null);
         deleteFishButton.setEnabled(fish != null);
 
-        for (var r : results) {
-            r.setFish(fish);
-            r.setPhRating(QualityRating.Unknown);
-            r.setTemperatureRating(QualityRating.Unknown);
-            r.setOxygenRating(QualityRating.Unknown);
-            r.setSalinityRating(QualityRating.Unknown);
+        for (var m : results) {
+            m.setPhRating(QualityRating.Unknown);
+            m.setTemperatureRating(QualityRating.Unknown);
+            m.setOxygenRating(QualityRating.Unknown);
+            m.setSalinityRating(QualityRating.Unknown);
         }
 
         makeTable();
@@ -395,8 +422,8 @@ public class MainWindow extends JFrame {
         for (int i = selectedRows.length - 1; i >= 0; i--) {
             int viewIndex = selectedRows[i];
             int modelIndex = resultTable.convertRowIndexToModel(viewIndex);
-            var result = results.get(modelIndex);
-            waterMeasurementService.deleteMeasurement(result.getMeasurement());
+            var measurement = results.get(modelIndex);
+            waterMeasurementService.deleteMeasurement(measurement);
             results.remove(modelIndex);
         }
 
@@ -414,7 +441,7 @@ public class MainWindow extends JFrame {
         var measurement = editor.getWaterMeasurement();
         if (measurement != null) {
             waterMeasurementService.addMeasurement(measurement);
-            results.add(new ResultListViewModel(measurement));
+            results.add(measurement);
             makeTable();
             programStatusLabel.setText("Messung erfasst");
         } else {
