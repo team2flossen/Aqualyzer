@@ -65,3 +65,7 @@ If the measured pH value is 7, the system checks how close this value is to the 
 - **risky**
 - **poor**
 - **critical**
+
+## Contributors
+
+[View all contributors](https://github.com/team2flossen/Aqualyzer/contributors)

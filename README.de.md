@@ -66,3 +66,7 @@ Liegt der gemessene pH-Wert bei 7, wird überprüft, wie nah dieser Wert am opti
 - **riskant**
 - **schlecht**
 - **kritisch**
+
+## Contributors
+
+[View all contributors](https://github.com/team2flossen/Aqualyzer/contributors)
