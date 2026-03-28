@@ -67,6 +67,24 @@ Liegt der gemessene pH-Wert bei 7, wird überprüft, wie nah dieser Wert am opti
 - **schlecht**
 - **kritisch**
 
+---
+
+# Installation
+
+## Voraussetzungen
+
+- **Java 17** oder höher ([Download](https://adoptium.net/))
+
+## Starten
+
+Lade die aktuelle `aqualyzer-1.0.0-runner.jar` von der [Releases-Seite](https://github.com/team2flossen/Aqualyzer/releases) herunter und starte sie:
+
+```bash
+java -jar aqualyzer-1.0.0-runner.jar
+```
+
+---
+
 ## Beitragende
 
 [Alle Beitragende anzeigen](https://github.com/team2flossen/Aqualyzer/contributors)

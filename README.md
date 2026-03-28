@@ -66,6 +66,24 @@ If the measured pH value is 7, the system checks how close this value is to the 
 - **poor**
 - **critical**
 
+---
+
+# Installation
+
+## Requirements
+
+- **Java 17** or higher ([Download](https://adoptium.net/))
+
+## Run
+
+Download the latest `aqualyzer-1.0.0-runner.jar` from the [Releases](https://github.com/team2flossen/Aqualyzer/releases) page, then:
+
+```bash
+java -jar aqualyzer-1.0.0-runner.jar
+```
+
+---
+
 ## Contributors
 
 [View all contributors](https://github.com/team2flossen/Aqualyzer/contributors)
