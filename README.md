@@ -2,6 +2,8 @@
 
 # The Aqualizer
 
+![qualität](qualität.png)
+
 This school project is based on the UN sustainability goal "Life Below Water". As part of the project, we took an in-depth look at various issues, including overfishing, ocean acidification, and water pollution.
 
 A related problem is that the actual fish populations in different kinds of water are often not precisely known. That is why we addressed the fundamental question:
