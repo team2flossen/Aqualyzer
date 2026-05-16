@@ -2,7 +2,7 @@
 
 # The Aqualizer
 
-![qualität](qualität.png)
+![qualität](aqualyzer.png)
 
 This school project is based on the UN sustainability goal "Life Below Water". As part of the project, we took an in-depth look at various issues, including overfishing, ocean acidification, and water pollution.
 
