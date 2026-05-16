@@ -2,6 +2,8 @@
 
 # Der Aqualizer
 
+![qualität](aqualyzer.png)
+
 Dieses Schulprojekt entstand auf Grundlage des UN-Nachhaltigkeitsziels **„Leben unter Wasser“ (Life Below Water)**. Im Rahmen des Projekts haben wir uns intensiv mit verschiedenen Problemfeldern beschäftigt, darunter Überfischung, Übersäuerung von Gewässern sowie Wasserverschmutzung.
 
 Ein damit verbundenes Problem ist, dass die tatsächlichen Fischbestände in Gewässern oft nicht exakt bekannt sind. Deshalb haben wir uns mit der grundlegenden Frage beschäftigt:
